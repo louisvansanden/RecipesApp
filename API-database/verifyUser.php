@@ -2,29 +2,24 @@
 
 	require_once("config.php");
 
-	$given_email = $_REQUEST["email"];
+	$given_username = $_REQUEST["username"];
 	$given_password = $_REQUEST["password"];
 
 	$main_array = [];
 
-	$sql = "SELECT * FROM UserData";
+	$sql = "SELECT * FROM Users";
     	$result = $conn->query($sql);
 
     	if ($result->num_rows > 0) {
     	while($row = $result->fetch_assoc()) {
-
-		$id = $row["id"];
-		$email = $row["email"];
-		$name = $row["name"];
-		$password = $row["password"];
 		
-		if ($given_email === $email && $given_password === $password) {
+		if ($given_username === $row["username"] && $given_password === $row["password"]) {
 
 		$info = [
 			
-			"id" => $id,
-			"email" => $email,
-			"name" => $name,
+			"id" => $row["userID"],
+			"username" => $row["username"],
+			"name" => $row["Fname"]
 
 		];        				
 
