@@ -21,14 +21,14 @@ class SplashScreen extends React.Component {
         textPassword: "Password",
         placeholderPassword: "Enter your password",
       },
-      username: "",
+      userName: "",
       password: "",
     };
   }
 
   updateUsername = (val) => {
     this.setState({
-      username: val,
+      userName: val,
     });
   };
   updatePassword = (val) => {
@@ -83,9 +83,12 @@ class SplashScreen extends React.Component {
 
           {/* BUTTON: Log in */}
           <TouchableOpacity
-            style={this.styles.btnSignIn}
+            style={this.styles.btnLogIn}
             onPress={() => {
-              this.props.login(this.state.username, this.state.password);
+              this.props.route.params.login(
+                this.state.userName,
+                this.state.password
+              );
             }}
           >
             <Text style={this.styles.btnText}>Log in</Text>
@@ -149,6 +152,20 @@ class SplashScreen extends React.Component {
       paddingVertical: 15,
       paddingLeft: 10,
       marginVertical: 5,
+    },
+    btnLogIn: {
+      alignSelf: "flex-end",
+      width: 150,
+      height: 50,
+
+      borderWidth: 1,
+      borderRadius: 15,
+      backgroundColor: "#218B82",
+
+      justifyContent: "center",
+      alignItems: "center",
+
+      marginTop: 25,
     },
     btnSignIn: {
       alignSelf: "flex-end",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Alert } from "react-native";
 import SplashScreen from "./Screens/SplashScreen";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
@@ -9,8 +9,8 @@ import HomeScreen from "./Screens/HomeScreen";
 import AccountScreen from "./Screens/AccountScreen";
 import { ip } from "./secrets.json";
 import FriendsScreen from "./Screens/FriendsScreen";
-import RecipeScreen from "./Screens/RecipeScreen";
 import { createStackNavigator } from "@react-navigation/stack";
+import RegisterScreen from "./Screens/RegisterScreen";
 
 class Nav {
   static Tab = createBottomTabNavigator();
@@ -84,9 +84,10 @@ class App extends Component {
         let userID;
         userID = null;
         if (user.length > 0) {
+          console.log(user[0]);
           userID = user[0].id;
-          userName = user[0].username;
-          name = user[0].name;
+          let userName = user[0].username;
+          let name = user[0].name;
           this.addAsync("userName", userName);
           this.addAsync("userID", userID);
           this.addAsync("name", name);
@@ -98,6 +99,40 @@ class App extends Component {
           });
         } else {
           alert("No match");
+        }
+      });
+  };
+
+  register = (username, password, repeatPassword, Fname) => {
+    fetch(
+      ip +
+        "recipes/database/register.php?username=" +
+        username +
+        "&password=" +
+        password +
+        "&repeatPassword=" +
+        repeatPassword +
+        "&Fname=" +
+        Fname,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const errors = responseJson.errors;
+        if (errors.length > 0) {
+          alert(
+            errors.map((e) => {
+              return e;
+            })
+          );
+        } else {
+          this.login(username, password);
         }
       });
   };
@@ -125,17 +160,20 @@ class App extends Component {
         return (
           <NavigationContainer>
             <Nav.Stack.Navigator
+              initialRouteName="Splash"
               screenOptions={{
                 headerShown: false,
               }}
             >
               <Nav.Stack.Screen
                 name="Splash"
-                children={() => <SplashScreen login={this.login} />}
+                component={SplashScreen}
+                initialParams={{ login: this.login }}
               />
               <Nav.Stack.Screen
                 name="Register"
-                children={() => <RegisterScreen />}
+                component={RegisterScreen}
+                initialParams={{ register: this.register }}
               />
             </Nav.Stack.Navigator>
           </NavigationContainer>

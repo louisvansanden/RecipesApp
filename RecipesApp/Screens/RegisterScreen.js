@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 
-class SplashScreen extends React.Component {
+class RegisterScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +20,15 @@ class SplashScreen extends React.Component {
         placeholderUsername: "Enter your username",
         textPassword: "Password",
         placeholderPassword: "Enter your password",
+        textRepeatPassword: "Repeat password",
+        placeholderRepeatPassword: "Repeat your password",
+        textFname: "First name",
+        placeholderFname: "Enter your first name",
       },
       username: "",
       password: "",
+      repeatPassword: "",
+      name: "",
     };
   }
 
@@ -34,6 +40,18 @@ class SplashScreen extends React.Component {
   updatePassword = (val) => {
     this.setState({
       password: val,
+    });
+  };
+
+  updateRepeatPassword = (val) => {
+    this.setState({
+      repeatPassword: val,
+    });
+  };
+
+  updateFname = (val) => {
+    this.setState({
+      name: val,
     });
   };
 
@@ -81,15 +99,58 @@ class SplashScreen extends React.Component {
             }}
           />
 
-          {/* BUTTON: Log in */}
-          <TouchableOpacity
-            style={this.styles.btnSignIn}
-            onPress={() => {
-              this.props.login(this.state.username, this.state.password);
+          {/* REPEAT PASSWORD */}
+          <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
+            {this.state.text.textRepeatPassword}
+          </Text>
+          <TextInput
+            style={this.styles.input}
+            placeholder={this.state.text.placeholderRepeatPassword}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={(val) => {
+              this.updateRepeatPassword(val);
             }}
-          >
-            <Text style={this.styles.btnText}>Log in</Text>
-          </TouchableOpacity>
+          />
+
+          {/* NAME */}
+          <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
+            {this.state.text.textFname}
+          </Text>
+          <TextInput
+            style={this.styles.input}
+            placeholder={this.state.text.placeholderFname}
+            onChangeText={(val) => {
+              this.updateFname(val);
+            }}
+          />
+
+          <View style={this.styles.buttons}>
+            {/* BUTTON: Log in */}
+            <TouchableOpacity
+              style={this.styles.btnLogIn}
+              onPress={() => {
+                this.props.navigation.navigate("Splash");
+              }}
+            >
+              <Text style={this.styles.btnLoginText}>Log in</Text>
+            </TouchableOpacity>
+
+            {/* BUTTON: Sign in */}
+            <TouchableOpacity
+              style={this.styles.btnSignIn}
+              onPress={() => {
+                this.props.route.params.register(
+                  this.state.username,
+                  this.state.password,
+                  this.state.repeatPassword,
+                  this.state.name
+                );
+              }}
+            >
+              <Text style={this.styles.btnSigninText}>Make account</Text>
+            </TouchableOpacity>
+          </View>
         </Animatable.View>
       </View>
     );
@@ -114,18 +175,18 @@ class SplashScreen extends React.Component {
       fontFamily: "Roboto",
     },
     footer: {
-      flex: 4,
+      flex: 15,
       backgroundColor: "#fff",
       borderTopLeftRadius: 40,
       borderTopRightRadius: 40,
-      paddingVertical: 50,
+      paddingVertical: 20,
       paddingHorizontal: 30,
     },
     titleFooter: {
       color: "#000000",
       fontSize: 25,
       fontWeight: "bold",
-      marginBottom: 20,
+      marginBottom: 10,
     },
     textFooter: {
       color: "grey",
@@ -136,11 +197,15 @@ class SplashScreen extends React.Component {
       borderRadius: 10,
       borderWidth: 1,
       borderColor: "lightgray",
-      paddingVertical: 15,
+      paddingVertical: 10,
       paddingLeft: 10,
-      marginVertical: 5,
+      marginVertical: 3,
     },
-    btnSignIn: {
+    buttons: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    btnLogIn: {
       alignSelf: "flex-end",
       width: 150,
       height: 50,
@@ -154,7 +219,26 @@ class SplashScreen extends React.Component {
 
       marginVertical: 25,
     },
-    btnText: {
+    btnSignIn: {
+      alignSelf: "flex-end",
+      width: 150,
+      height: 50,
+
+      borderWidth: 1,
+      borderRadius: 15,
+      backgroundColor: "#218B82",
+
+      justifyContent: "center",
+      alignItems: "center",
+
+      marginVertical: 25,
+    },
+    btnLoginText: {
+      fontSize: 15,
+      fontWeight: "bold",
+      fontFamily: "Roboto",
+    },
+    btnSigninText: {
       fontSize: 18,
       fontWeight: "bold",
       fontFamily: "Roboto",
@@ -162,4 +246,4 @@ class SplashScreen extends React.Component {
   });
 }
 
-export default SplashScreen;
+export default RegisterScreen;
