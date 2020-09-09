@@ -1,5 +1,6 @@
 <?php
-
+	
+	include "functions.php";
 	require_once("config.php");
 
 	$given_username = $_REQUEST["username"];
@@ -13,7 +14,7 @@
     	if ($result->num_rows > 0) {
     	while($row = $result->fetch_assoc()) {
 		
-		if ($given_username === $row["username"] && $given_password === $row["password"]) {
+		if ($given_username === $row["username"] && validate_password($given_password, $row["password"])) {
 
 		$info = [
 			
@@ -35,7 +36,7 @@
 
     	} else {
 
-    	echo "";
+		echo "";
 
     	}
     	$conn->close(); 

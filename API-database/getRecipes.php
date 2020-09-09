@@ -17,7 +17,31 @@
     	if ($result->num_rows > 0) {
 
     		while($row = $result->fetch_assoc()) {
-			array_push($main_array, $row["recipe_name"]);
+
+			$sql_sub = "SELECT * FROM Ingredients I WHERE I.userID = ? AND I.recipe_name = ?";
+			$stmt_sub = $conn->prepare($sql_sub);
+			$stmt_sub->bind_param("ss", $row["userID"], $row["recipe_name"]);
+			$stmt_sub->execute();
+			$result_sub = $stmt_sub->get_result();
+			
+			$ingredient_array = [];
+			if ($result_sub->num_rows > 0) {
+
+				while($row_sub = $result_sub->fetch_assoc()) {
+					
+					array_push($ingredient_array, $row_sub["ingredient_name"]);
+
+				}
+			}
+	
+			$info = [
+			
+					"name" => $row["recipe_name"],
+					"ingredients" => $ingredient_array
+
+				];        				
+
+			array_push($main_array, $info);
     		}
 	
 	}
