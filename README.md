@@ -2,4 +2,5 @@
 
 ## TODO
 
-- [ ] Verify with email.
+- [ ] Verify registration with email
+- [ ] Hash passwords
