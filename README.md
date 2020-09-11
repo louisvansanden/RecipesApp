@@ -19,7 +19,9 @@ Recipes can be added by providing a name. To add ingredients, one can navigate t
 
 ## TODO
 - [ ] Setup database to be able to store:
-  - [ ] Users <u>userID</u> 
-  - [ ] Recipes 
+  - [X] Users (__userID__, username, password, salt, Fname)
+  - [X] Recipes (__userID__, recipe_name)
+  - [X] Ingredients (__userID__, __recipe_name__, ingredient_name)
+  - [ ] Friends (__userID__, friend_userID)
 - [ ] Verify registration with email
 - [ ] Hash passwords
