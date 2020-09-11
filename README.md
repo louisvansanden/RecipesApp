@@ -19,9 +19,7 @@ Recipes can be added by providing a name. To add ingredients, one can navigate t
 
 ## TODO
 - [ ] Setup database to be able to store:
-  - [ ] Users
-    - userID
-    - username
+  - [ ] Users ( <u>userID</u> )
   - [ ] Recipes 
 - [ ] Verify registration with email
 - [ ] Hash passwords
