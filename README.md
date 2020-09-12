@@ -21,7 +21,7 @@ Recipes can be added by providing a name. To add ingredients, one can navigate t
 - [ ] Setup database to be able to store:
   - [X] Users (__userID__, username, password, salt, Fname)
   - [X] Recipes (__userID__, recipe_name)
-  - [X] Ingredients (__userID__, __recipe_name__, ingredient_name)
+  - [X] Ingredients (__userID__, __recipe_name__, __ingredient_name__)
   - [ ] Friends (__userID__, friend_userID)
 - [ ] App screens:
   - [X] Splash screen: shown when user enters app and no user is logged in.
