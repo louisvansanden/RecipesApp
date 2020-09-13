@@ -76,13 +76,15 @@
 
 	if (empty($errors)) {
 
-		$sql = "INSERT INTO Users (username, password, Fname) VALUES (?, ?, ?)";
+		$sql = "INSERT INTO Users (username, password, salt, Fname) VALUES (?, ?, ?, ?)";
 
 		if( $stmt = $conn->prepare($sql)) {
 
-		        $given_password = generate_password($given_password);
+		        $generate_pass = generate_password($given_password);
+			$given_password = $generate_pass[0];
+			$salt = $generate_pass[1];
 
-	        	$stmt->bind_param("sss", $given_username, $given_password, $given_fname);
+	        	$stmt->bind_param("ssss", $given_username, $given_password, $salt, $given_fname);
 
 		        if($stmt->execute()) {
 

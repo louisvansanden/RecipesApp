@@ -14,7 +14,7 @@
     	if ($result->num_rows > 0) {
     	while($row = $result->fetch_assoc()) {
 		
-		if ($given_username === $row["username"] && validate_password($given_password, $row["password"])) {
+		if ($given_username === $row["username"] && validate_password($given_password, $row["password"], $row["salt"])) {
 
 		$info = [
 			
