@@ -22,31 +22,42 @@ export default class HomeScreen extends React.Component {
     super(props);
 
     this.state = {
-      lastRefresh: null,
+      // User information.
       userID: null,
       userName: null,
       name: null,
+
+      // Boolean loading recipes.
       isLoading: true,
+
+      // User recipes.
       recipes: [],
+
+      // Screen mode: {"main", "recipe", "add"}.
       showing: null,
+      screenTitle: "Home",
+
+      // When on mode "recipe".
       currentRecipe: {
         recipeName: null,
         ingredients: null,
       },
+
+      // When creating recipe.
       newRecipeName: "",
       newIngredientName: "",
     };
   }
 
-  updateNewRecipeName = (val) => {
+  updateNewRecipeName = (newRecipeName) => {
     this.setState({
-      newRecipeName: val,
+      newRecipeName,
     });
   };
 
-  updateNewIngredientName = (val) => {
+  updateNewIngredientName = (newIngredientName) => {
     this.setState({
-      newIngredientName: val,
+      newIngredientName,
     });
   };
 
@@ -75,9 +86,7 @@ export default class HomeScreen extends React.Component {
             })
           );
         } else {
-          this.setState({
-            showing: "main",
-          });
+          this.setScreenMode("main");
         }
       })
       .then(this.getUserData_Async());
@@ -117,13 +126,13 @@ export default class HomeScreen extends React.Component {
   };
 
   async showRecipe(recipeName, ingredients) {
-    await this.setState({
-      showing: "recipe",
+    this.setState({
       currentRecipe: {
         recipeName,
         ingredients,
       },
     });
+    this.setScreenMode("recipe");
   }
 
   getUserData_Async = async () => {
@@ -160,16 +169,23 @@ export default class HomeScreen extends React.Component {
       });
   };
 
+  setScreenMode(showing) {
+    this.setState({
+      showing,
+    });
+  }
+
   componentDidMount() {
     this.getUserData_Async();
     this.getRecipeNames(this.state.userID);
     BackHandler.addEventListener("hardwareBackPress", () => {
       if (this.state.showing !== "main" && this.state.showing !== null) {
-        this.setState({
-          showing: "main",
-        });
+        this.setScreenMode("main");
         return true;
       }
+    });
+    this.props.navigation.addListener("tabPress", () => {
+      this.setScreenMode("main");
     });
   }
 
@@ -187,9 +203,7 @@ export default class HomeScreen extends React.Component {
                   alignItems: "center",
                 }}
                 onPress={() => {
-                  this.setState({
-                    showing: "main",
-                  });
+                  this.setScreenMode("main");
                 }}
               >
                 <Ionicons name="ios-arrow-back" color="#fff" size={30} />
@@ -201,7 +215,7 @@ export default class HomeScreen extends React.Component {
             <Text style={this.styles.titleFooter}>
               {this.state.currentRecipe.recipeName}
             </Text>
-            <Text style={this.styles.footerText}>New ingredient</Text>
+            <Text style={this.styles.footerText}>New ingredient:</Text>
             <TextInput
               style={[this.styles.input, { height: 40, paddingVertical: 5 }]}
               placeholder="Name"
@@ -219,6 +233,7 @@ export default class HomeScreen extends React.Component {
                 );
               }}
             >
+              <Ionicons name="ios-add" size={30} />
               <Text style={this.styles.btnText}>Add item</Text>
             </TouchableOpacity>
 
@@ -279,7 +294,6 @@ export default class HomeScreen extends React.Component {
                       onPress={() => {
                         this.getUserData_Async();
                         this.showRecipe(r.name, r.ingredients);
-                        console.log(r);
                       }}
                     >
                       <Text style={this.styles.cardTitle}>{r.name}</Text>
@@ -300,9 +314,7 @@ export default class HomeScreen extends React.Component {
 
             <TouchableOpacity
               onPress={() => {
-                this.setState({
-                  showing: "add",
-                });
+                this.setScreenMode("add");
               }}
             >
               <Animatable.View animation="bounce" style={this.styles.cardAdd}>
@@ -343,7 +355,7 @@ export default class HomeScreen extends React.Component {
           </View>
           <View style={this.styles.footer}>
             <Text style={this.styles.titleFooter}>Add a new recipe:</Text>
-            <Text style={this.styles.footerText}>Recipe name</Text>
+
             <TextInput
               style={this.styles.input}
               placeholder="Name"
@@ -357,6 +369,7 @@ export default class HomeScreen extends React.Component {
                 this.addRecipe(this.state.newRecipeName);
               }}
             >
+              <Ionicons name="ios-add" size={30} />
               <Text style={this.styles.btnText}>Add recipe</Text>
             </TouchableOpacity>
           </View>
@@ -372,7 +385,7 @@ export default class HomeScreen extends React.Component {
       backgroundColor: "#fff",
     },
     header: {
-      flex: 1,
+      height: Dimensions.get("screen").height * 0.1 + 20,
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "flex-start",
@@ -392,7 +405,7 @@ export default class HomeScreen extends React.Component {
     },
     textHeader: {
       color: "#fff",
-      fontWeight: "bold",
+      fontWeight: "normal",
       fontSize: 40,
       fontFamily: "Roboto",
       alignSelf: "center",
@@ -468,32 +481,35 @@ export default class HomeScreen extends React.Component {
     },
     input: {
       fontSize: 15,
-      borderRadius: 10,
+      borderRadius: 20,
       borderWidth: 1,
       borderColor: "lightgray",
-      paddingVertical: 15,
-      paddingLeft: 10,
+      paddingVertical: 5,
+      paddingLeft: 15,
       marginVertical: 5,
       width: Dimensions.get("screen").width * 0.8,
     },
     btnAdd: {
       alignSelf: "flex-end",
-      width: 150,
-      height: 50,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
 
-      borderWidth: 1,
-      borderRadius: 15,
-      backgroundColor: "#218B82",
+      borderWidth: 2,
+      borderRadius: 20,
+      backgroundColor: "#fff",
+      borderColor: "#218B82",
 
+      flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
 
-      marginTop: 25,
+      marginTop: 10,
     },
     btnText: {
       fontSize: 18,
-      fontWeight: "bold",
+      fontWeight: "normal",
       fontFamily: "Roboto",
+      marginLeft: 10,
     },
   });
 }

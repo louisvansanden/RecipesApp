@@ -48,7 +48,7 @@ export default class HomeScreen extends React.Component {
     },
     textHeader: {
       color: "#fff",
-      fontWeight: "bold",
+      fontWeight: "normal",
       fontSize: 40,
       fontFamily: "Roboto",
       alignSelf: "center",

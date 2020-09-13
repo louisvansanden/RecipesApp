@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { ScrollView } from "react-native-gesture-handler";
 
 class RegisterScreen extends React.Component {
   constructor(props) {
@@ -68,89 +69,91 @@ class RegisterScreen extends React.Component {
           animation="slideInUp"
           style={this.styles.footer}
         >
-          <Text style={this.styles.titleFooter}>
-            {this.state.text.titleFooter}
-          </Text>
+          <ScrollView>
+            <Text style={this.styles.titleFooter}>
+              {this.state.text.titleFooter}
+            </Text>
 
-          {/* USERNAME */}
-          <Text style={this.styles.textFooter}>
-            {this.state.text.textUsername}
-          </Text>
-          <TextInput
-            style={this.styles.input}
-            placeholder={this.state.text.placeholderUsername}
-            autoCapitalize="none"
-            onChangeText={(val) => {
-              this.updateUsername(val);
-            }}
-          />
-
-          {/* PASSWORD */}
-          <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
-            {this.state.text.textPassword}
-          </Text>
-          <TextInput
-            style={this.styles.input}
-            placeholder={this.state.text.placeholderPassword}
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(val) => {
-              this.updatePassword(val);
-            }}
-          />
-
-          {/* REPEAT PASSWORD */}
-          <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
-            {this.state.text.textRepeatPassword}
-          </Text>
-          <TextInput
-            style={this.styles.input}
-            placeholder={this.state.text.placeholderRepeatPassword}
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(val) => {
-              this.updateRepeatPassword(val);
-            }}
-          />
-
-          {/* NAME */}
-          <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
-            {this.state.text.textFname}
-          </Text>
-          <TextInput
-            style={this.styles.input}
-            placeholder={this.state.text.placeholderFname}
-            onChangeText={(val) => {
-              this.updateFname(val);
-            }}
-          />
-
-          <View style={this.styles.buttons}>
-            {/* BUTTON: Log in */}
-            <TouchableOpacity
-              style={this.styles.btnLogIn}
-              onPress={() => {
-                this.props.navigation.navigate("Splash");
+            {/* USERNAME */}
+            <Text style={this.styles.textFooter}>
+              {this.state.text.textUsername}
+            </Text>
+            <TextInput
+              style={this.styles.input}
+              placeholder={this.state.text.placeholderUsername}
+              autoCapitalize="none"
+              onChangeText={(val) => {
+                this.updateUsername(val);
               }}
-            >
-              <Text style={this.styles.btnLoginText}>Log in</Text>
-            </TouchableOpacity>
+            />
 
-            {/* BUTTON: Sign in */}
-            <TouchableOpacity
-              style={this.styles.btnSignIn}
-              onPress={() => {
-                this.props.route.params.register(
-                  this.state.username,
-                  this.state.password,
-                  this.state.repeatPassword,
-                  this.state.name
-                );
+            {/* PASSWORD */}
+            <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
+              {this.state.text.textPassword}
+            </Text>
+            <TextInput
+              style={this.styles.input}
+              placeholder={this.state.text.placeholderPassword}
+              autoCapitalize="none"
+              secureTextEntry={true}
+              onChangeText={(val) => {
+                this.updatePassword(val);
               }}
-            >
-              <Text style={this.styles.btnSigninText}>Make account</Text>
-            </TouchableOpacity>
-          </View>
+            />
+
+            {/* REPEAT PASSWORD */}
+            <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
+              {this.state.text.textRepeatPassword}
+            </Text>
+            <TextInput
+              style={this.styles.input}
+              placeholder={this.state.text.placeholderRepeatPassword}
+              autoCapitalize="none"
+              secureTextEntry={true}
+              onChangeText={(val) => {
+                this.updateRepeatPassword(val);
+              }}
+            />
+
+            {/* NAME */}
+            <Text style={[this.styles.textFooter, { marginTop: 15 }]}>
+              {this.state.text.textFname}
+            </Text>
+            <TextInput
+              style={this.styles.input}
+              placeholder={this.state.text.placeholderFname}
+              onChangeText={(val) => {
+                this.updateFname(val);
+              }}
+            />
+
+            <View style={this.styles.buttonWrapper}>
+              {/* BUTTON: Log in */}
+              <TouchableOpacity
+                style={[this.styles.btn, this.styles.btnLogIn]}
+                onPress={() => {
+                  this.props.navigation.navigate("Splash");
+                }}
+              >
+                <Text style={this.styles.btnLoginText}>Log in</Text>
+              </TouchableOpacity>
+
+              {/* BUTTON: Sign in */}
+              <TouchableOpacity
+                style={[this.styles.btn, this.styles.btnSignIn]}
+                onPress={() => {
+                  this.props.route.params.register(
+                    this.state.username,
+                    this.state.password,
+                    this.state.repeatPassword,
+                    this.state.name
+                  );
+                }}
+              >
+                <Text style={this.styles.btnSigninText}>Make account</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </Animatable.View>
       </View>
     );
@@ -201,37 +204,26 @@ class RegisterScreen extends React.Component {
       paddingLeft: 10,
       marginVertical: 3,
     },
-    buttons: {
+    buttonWrapper: {
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
+      marginVertical: 20,
     },
-    btnLogIn: {
-      alignSelf: "flex-end",
-      width: 150,
-      height: 50,
-
-      borderWidth: 3,
-      borderColor: "#218B82",
+    btn: {
       borderRadius: 15,
-
+      paddingVertical: 10,
+      paddingHorizontal: 20,
       justifyContent: "center",
       alignItems: "center",
-
-      marginVertical: 25,
     },
     btnSignIn: {
-      alignSelf: "flex-end",
-      width: 150,
-      height: 50,
-
       borderWidth: 1,
-      borderRadius: 15,
       backgroundColor: "#218B82",
-
-      justifyContent: "center",
-      alignItems: "center",
-
-      marginVertical: 25,
+      marginLeft: 30,
+    },
+    btnLogIn: {
+      borderWidth: 2,
+      borderColor: "#218B82",
     },
     btnLoginText: {
       fontSize: 15,
