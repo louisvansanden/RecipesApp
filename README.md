@@ -38,3 +38,6 @@ Recipes can be added by providing a name. To add ingredients, one can navigate t
   - [ ] Friends screen: contains friends, can show a screen similar to the home screen but with recipes for friends.
 - [ ] Verify registration with email
 - [X] Hash and salt passwords
+
+- [ ] Bugs to fix:
+  - [ ] Adding an ingredient does not update the ingredients list immediately.
