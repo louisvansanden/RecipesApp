@@ -8,7 +8,7 @@ To use this app an account is required which can be made in-app. This requires:
 - password
 - first name
 
-The input is checked server-side for among other things username uniqueness, password length and password matching with repeated password. If valid, the username and firstname are saved in the database along with a salted and hashed password and its salt. 
+The input is checked server-side for, among other things, username uniqueness, password length and password matching with repeated password. If valid, the username and firstname are saved in the database along with a salted and hashed password and its salt. 
 To login again the provided username and password are checked using the salt and if all match, the user is logged in.
 
 ## Recipes
